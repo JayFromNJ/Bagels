@@ -50,8 +50,8 @@ func getClue(guess, secretNumber string) string {
 	sort.Strings(clues)
 
 	toReturn := ""
-	for i := 0; i < len(clues); i++ {
-		toReturn = toReturn + clues[i] + " "
+	for _, value := range clues {
+		toReturn = toReturn + value + " "
 	}
 
 	return toReturn
@@ -63,8 +63,8 @@ func isOnlyDigits(guess string) bool {
 	}
 
 	guessSplit := strings.Split(guess, "")
-	for i := 0; i < len(guessSplit); i++ {
-		_, err := strconv.Atoi(guessSplit[i])
+	for _, value := range guessSplit {
+		_, err := strconv.Atoi(value)
 		if err != nil {
 			return false
 		}
@@ -74,5 +74,5 @@ func isOnlyDigits(guess string) bool {
 }
 
 func main() {
-	fmt.Println(isOnlyDigits("412"))
+	fmt.Println(isOnlyDigits("2e2"))
 }
