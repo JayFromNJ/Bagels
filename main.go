@@ -1,10 +1,9 @@
 package main
 
 import (
-	"bufio"
+	"Bagels/gojaygo"
 	"fmt"
 	"math/rand"
-	"os"
 	"sort"
 	"strconv"
 	"strings"
@@ -83,7 +82,7 @@ func main() {
 	fmt.Println("Pico\tOne digit is correct but in the wrong position")
 	fmt.Println("Fermi\tOne digit is correct and in the right position")
 
-	reader := bufio.NewReader(os.Stdin)
+	reader := gojaygo.GetNewCLReader()
 
 	for {
 		secretNumber := getSecretNumber()
@@ -95,8 +94,7 @@ func main() {
 
 			for len(guess) != NUM_DIGITS || isOnlyDigits(guess) == false {
 				fmt.Printf("Guess #%v: ", guessesTaken)
-				guess, _ = reader.ReadString('\n')
-				guess = strings.TrimRight(guess, "\r\n")
+				guess, _ = reader.GetCLInput()
 			}
 
 			fmt.Println(getClue(guess, secretNumber))
@@ -111,8 +109,7 @@ func main() {
 		}
 
 		fmt.Println("Do you want to play again? (Y or N)")
-		answer, _ := reader.ReadString('\n')
-		answer = strings.TrimRight(answer, "\r\n")
+		answer, _ := reader.GetCLInput()
 		answer = strings.ToUpper(answer)
 
 		if answer != "Y" {
