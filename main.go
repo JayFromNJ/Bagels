@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -56,6 +57,22 @@ func getClue(guess, secretNumber string) string {
 	return toReturn
 }
 
+func isOnlyDigits(guess string) bool {
+	if guess == "" {
+		return false
+	}
+
+	guessSplit := strings.Split(guess, "")
+	for i := 0; i < len(guessSplit); i++ {
+		_, err := strconv.Atoi(guessSplit[i])
+		if err != nil {
+			return false
+		}
+	}
+
+	return true
+}
+
 func main() {
-	fmt.Println(getSecretNumber())
+	fmt.Println(isOnlyDigits("412"))
 }
