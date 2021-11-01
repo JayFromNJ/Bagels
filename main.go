@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"math/rand"
+	"os"
 	"sort"
 	"strconv"
 	"strings"
@@ -74,5 +76,47 @@ func isOnlyDigits(guess string) bool {
 }
 
 func main() {
-	fmt.Println(isOnlyDigits("2e2"))
+	fmt.Printf("I am thinking of a %v-digit number. Try to guess what it is.\n", NUM_DIGITS)
+	fmt.Println("The clues I give are...")
+	fmt.Println("Clue\tThat means:")
+	fmt.Println("Bagels\tNone of the digits are correct")
+	fmt.Println("Pico\tOne digit is correct but in the wrong position")
+	fmt.Println("Fermi\tOne digit is correct and in the right position")
+
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		secretNumber := getSecretNumber()
+		fmt.Printf("I have thought of a number. You have %v guess to get it.\n", MAX_GUESS)
+
+		guessesTaken := 1
+		for guessesTaken <= MAX_GUESS {
+			guess := ""
+
+			for len(guess) != NUM_DIGITS || isOnlyDigits(guess) == false {
+				fmt.Printf("Guess #%v: ", guessesTaken)
+				guess, _ = reader.ReadString('\n')
+				guess = strings.TrimRight(guess, "\r\n")
+			}
+
+			fmt.Println(getClue(guess, secretNumber))
+			guessesTaken++
+
+			if guess == secretNumber {
+				break
+			}
+			if guessesTaken > MAX_GUESS {
+				fmt.Printf("You ran out of guesses. The answer was %v.\n", secretNumber)
+			}
+		}
+
+		fmt.Println("Do you want to play again? (Y or N)")
+		answer, _ := reader.ReadString('\n')
+		answer = strings.TrimRight(answer, "\r\n")
+		answer = strings.ToUpper(answer)
+
+		if answer != "Y" {
+			break
+		}
+	}
 }
